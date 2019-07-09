@@ -66,7 +66,6 @@ public class AOPUtil {
         }
     }
 
-
     public void save(StopWatch info) {
         if (mContext == null || info == null) {
             return;
@@ -194,4 +193,5 @@ public class AOPUtil {
         message.append(methodName);
         return message.toString();
     }
+
 }

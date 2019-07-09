@@ -1,4 +1,6 @@
-package com.lougw.aop;
+package com.lougw.app;
+
+import com.lougw.aop.AOPUtil;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;

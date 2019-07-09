@@ -1,10 +1,10 @@
-package com.lougw.aop;
+package com.lougw.app;
 
-import org.aspectj.lang.JoinPoint;
+import com.lougw.aop.AOPUtil;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 
 @Aspect
@@ -21,30 +21,9 @@ public class MethodCountAspectj {
 
     }
 
-    @Pointcut("call(* android.content.ContentValues.*(..))")
-    public void invokeContentValues() {
-
-    }
-
-    @Pointcut("call(* android.graphics.Canvas.*(..))")
-    public void invokeCanvas() {
-
-    }
-
-    @Pointcut("call(* com.chehejia.car.fmradio.ui2.PlayIndicator.*(..))")
-    public void invokePlayIndicator() {
-
-    }
-
-    @Around("invokeMethod() && !invokeWatch() && !invokeContentValues() && !invokeCanvas() && !invokePlayIndicator()")
+    @Around("invokeMethod() && !invokeWatch()")
     public void aroundMethodExecution(final ProceedingJoinPoint joinPoint) {
-        AOPUtil.getInstance().aroundMethodExecution(joinPoint,true);
+        AOPUtil.getInstance().aroundMethodExecution(joinPoint, false);
     }
-    @Before("invokeMethod() && !invokeWatch() && !invokeContentValues() && !invokeCanvas() && !invokePlayIndicator()")
-    public void beforeMethodExecution(final JoinPoint joinPoint) {
 
-        AOPUtil.getInstance().onBeforeMethodExecution(joinPoint);
-
-
-    }
 }
