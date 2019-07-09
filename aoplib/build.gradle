@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'maven'
 
 android {
     compileSdkVersion 28
@@ -12,18 +13,27 @@ dependencies {
     implementation 'org.aspectj:aspectjrt:1.8.9'
 
 }
-//uploadArchives {
-//    repositories {
-//        mavenDeployer {
-//            //设置插件的GAV参数
-//            pom.groupId = 'com.lougw.aop'
-//            pom.artifactId = 'buildaop'
-//            pom.version = 1.0
-//            //文件发布到下面目录
-//            repository(url: uri('../release'))
-//        }
-//    }
-//}
+
+
+
+repositories {
+    mavenCentral()
+}
+//
+//设置maven deployer
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            //设置插件的GAV参数
+            pom.groupId = 'com.lougw.aop'
+            pom.artifactId = 'buildaop'
+            pom.version = 1.0
+            //文件发布到下面目录
+            repository(url: uri('../release'))
+        }
+    }
+}
+
 publish {
     userOrg = 'gaoweilou' //bintray注册的用户名（不是邮箱）
     groupId = 'com.lougw.aop'

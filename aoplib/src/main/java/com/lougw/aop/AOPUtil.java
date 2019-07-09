@@ -30,6 +30,7 @@ public class AOPUtil {
     private static StopWatchDataBaseIml mDataBaseIml;
     private static HandlerThread mAOPManagerThread;
     private static AOPHandler mAOPManagerHandler;
+    private static long mFilterTime = 0;
 
     private static class AopUtilHolder {
         private static final AOPUtil instance = new AOPUtil();
@@ -42,7 +43,8 @@ public class AOPUtil {
         return AopUtilHolder.instance;
     }
 
-    public void init(Context context) {
+    public void init(Context context, long filterTime) {
+        mFilterTime = filterTime;
         mContext = context.getApplicationContext();
         mDataBaseIml = new StopWatchDataBaseIml(mContext);
         mAOPManagerThread = new HandlerThread("aop manager thread");
@@ -119,7 +121,7 @@ public class AOPUtil {
             stopWatch.stop();
             stopWatch.setClassName(className);
             stopWatch.setMethodName(methodName);
-            if (Thread.currentThread() == Looper.getMainLooper().getThread() || !main) {
+            if ((Thread.currentThread() == Looper.getMainLooper().getThread() || !main) && stopWatch.getTotalTimeMillis() > mFilterTime) {
                 AOPUtil.getInstance().save(stopWatch);
             }
             Log.d(TAG, buildLogMessage(className, methodName, stopWatch.getTotalTimeMillis()));

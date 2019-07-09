@@ -9,6 +9,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        AOPUtil.getInstance().init(this);
+        AOPUtil.getInstance().init(this,20);
     }
 }

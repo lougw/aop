@@ -38,6 +38,10 @@ public class StopWatch {
         }
     }
 
+    public long getElapsedTime() {
+        return elapsedTime;
+    }
+
     public long getTotalTimeMillis() {
         return (elapsedTime != 0) ? TimeUnit.NANOSECONDS.toMillis(endTime - startTime) : 0;
     }
