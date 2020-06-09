@@ -28,4 +28,9 @@ public final class StopWatchColumns implements BaseColumns {
      */
     public static final String METHOD_NAME = "method_name";
 
+    /**
+     * 线程名字
+     */
+    public static final String THREAD_NAME = "thread_name";
+
 }

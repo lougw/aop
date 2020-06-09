@@ -13,6 +13,8 @@ public class StopWatch {
     private long elapsedTime;
     private String className;
     private String methodName;
+    private String threadName;
+
 
     public StopWatch() {
         //empty
@@ -46,12 +48,20 @@ public class StopWatch {
         return (elapsedTime != 0) ? TimeUnit.NANOSECONDS.toMillis(endTime - startTime) : 0;
     }
 
+    public boolean isValid() {
+        return endTime - startTime > 0;
+    }
+
     public void setClassName(String className) {
         this.className = className;
     }
 
     public void setMethodName(String methodName) {
         this.methodName = methodName;
+    }
+
+    public void setThreadName(String threadName) {
+        this.threadName = threadName;
     }
 
     public StopWatch(Cursor cursor) {
@@ -65,6 +75,8 @@ public class StopWatch {
                 .getColumnIndex(StopWatchColumns.CLASS_NAME));
         methodName = cursor.getString(cursor
                 .getColumnIndex(StopWatchColumns.METHOD_NAME));
+        threadName = cursor.getString(cursor
+                .getColumnIndex(StopWatchColumns.THREAD_NAME));
     }
 
     synchronized public ContentValues toContentValues() {
@@ -74,6 +86,7 @@ public class StopWatch {
         value.put(StopWatchColumns.ELAPSED_TIME, getTotalTimeMillis());
         value.put(StopWatchColumns.CLASS_NAME, className);
         value.put(StopWatchColumns.METHOD_NAME, methodName);
+        value.put(StopWatchColumns.THREAD_NAME, threadName);
         return value;
     }
 

@@ -42,6 +42,7 @@ public class StopWatchDBHelper extends SQLiteOpenHelper {
         sb.append("CREATE TABLE ").append(TABLE_NAME).append("(")
                 .append(StopWatchColumns._ID)
                 .append(" INTEGER PRIMARY KEY autoincrement,")
+                .append(StopWatchColumns.THREAD_NAME).append(" TEXT,")
                 .append(StopWatchColumns.ELAPSED_TIME).append(" Long,")
                 .append(StopWatchColumns.CLASS_NAME).append(" TEXT,")
                 .append(StopWatchColumns.METHOD_NAME).append(" TEXT,")

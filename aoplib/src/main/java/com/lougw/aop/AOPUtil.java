@@ -69,7 +69,7 @@ public class AOPUtil {
     }
 
     public void save(StopWatch info) {
-        if (mContext == null || info == null) {
+        if (mContext == null || info == null || !info.isValid()) {
             return;
         }
         if (mAOPManagerHandler != null && mAOPManagerThread.isAlive()) {
@@ -80,7 +80,6 @@ public class AOPUtil {
     private void doSave(StopWatch info) {
         try {
             mDataBaseIml.insert(info);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -110,7 +109,7 @@ public class AOPUtil {
         }
     }
 
-    public void aroundMethodExecution(final ProceedingJoinPoint joinPoint, boolean main) {
+    public void aroundMethodExecution(final ProceedingJoinPoint joinPoint, String threadName) {
         try {
             MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
             String className = methodSignature.getDeclaringType().getSimpleName();
@@ -121,10 +120,11 @@ public class AOPUtil {
             stopWatch.stop();
             stopWatch.setClassName(className);
             stopWatch.setMethodName(methodName);
-            if ((Thread.currentThread() == Looper.getMainLooper().getThread() || !main) && stopWatch.getTotalTimeMillis() > mFilterTime) {
+            stopWatch.setThreadName(threadName);
+            if (stopWatch.getTotalTimeMillis() > mFilterTime) {
                 AOPUtil.getInstance().save(stopWatch);
+                Log.d(TAG, buildLogMessage(className, methodName, stopWatch.getTotalTimeMillis()));
             }
-            Log.d(TAG, buildLogMessage(className, methodName, stopWatch.getTotalTimeMillis()));
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
